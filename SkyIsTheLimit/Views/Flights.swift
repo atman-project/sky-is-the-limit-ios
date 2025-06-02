@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  Flights.swift
 //  SkyIsTheLimit
 //
 //  Created by Youngjoon Lee on 6/2/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct Flights: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
 
@@ -24,6 +24,8 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteItems)
             }
+            .listStyle(.inset)
+            .navigationTitle("Flights")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -56,6 +58,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    Flights()
         .modelContainer(for: Item.self, inMemory: true)
 }
