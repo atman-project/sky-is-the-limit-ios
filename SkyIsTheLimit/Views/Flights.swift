@@ -19,7 +19,7 @@ struct Flights: View {
                     NavigationLink {
                         Text("Flight at \(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))")
                     } label: {
-                        Text(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))
+                        FlightRow(flight: flight)
                     }
                 }
                 .onDelete(perform: deleteFlights)
