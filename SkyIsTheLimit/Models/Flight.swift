@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  Flight.swift
 //  SkyIsTheLimit
 //
 //  Created by Youngjoon Lee on 6/2/25.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Item {
+final class Flight {
     var timestamp: Date
     
     init(timestamp: Date) {

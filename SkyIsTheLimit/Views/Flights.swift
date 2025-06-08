@@ -10,19 +10,19 @@ import SwiftData
 
 struct Flights: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var flights: [Flight]
 
     var body: some View {
         NavigationSplitView {
             List {
-                ForEach(items) { item in
+                ForEach(flights) { flight in
                     NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+                        Text("Flight at \(flight.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
                     } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                        Text(flight.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: deleteFlights)
             }
             .listStyle(.inset)
             .navigationTitle("Flights")
@@ -31,33 +31,36 @@ struct Flights: View {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button(action: addFlight) {
+                        Label("Add Flight", systemImage: "plus")
                     }
                 }
             }
         } detail: {
-            Text("Select an item")
+            Text("Select a Flight")
         }
     }
 
-    private func addItem() {
+    private func addFlight() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
+            let newFlight = Flight(timestamp: Date())
+            modelContext.insert(newFlight)
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteFlights(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(items[index])
+                modelContext.delete(flights[index])
             }
         }
     }
 }
 
 #Preview {
-    Flights()
-        .modelContainer(for: Item.self, inMemory: true)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Flight.self, configurations: config)
+    let flight = Flight(timestamp: Date())
+    container.mainContext.insert(flight)
+    return Flights().modelContainer(container)
 }
