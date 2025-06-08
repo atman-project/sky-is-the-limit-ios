@@ -17,9 +17,9 @@ struct Flights: View {
             List {
                 ForEach(flights) { flight in
                     NavigationLink {
-                        Text("Flight at \(flight.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
+                        Text("Flight at \(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))")
                     } label: {
-                        Text(flight.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                        Text(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))
                     }
                 }
                 .onDelete(perform: deleteFlights)
@@ -43,7 +43,7 @@ struct Flights: View {
 
     private func addFlight() {
         withAnimation {
-            let newFlight = Flight(timestamp: Date())
+            let newFlight = Flight(departure_airport: "AMS", arrival_airport: "ICN", departure_localtime: ISO8601DateFormatter().date(from: "2025-06-01T21:25:00+02:00")!, arrival_localtime: ISO8601DateFormatter().date(from: "2025-06-02T16:25:00+09:00")!, airline: "KLM", aircraft: "B777-200", flight_number: "KL855")
             modelContext.insert(newFlight)
         }
     }
@@ -60,7 +60,7 @@ struct Flights: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Flight.self, configurations: config)
-    let flight = Flight(timestamp: Date())
+    let flight = Flight(departure_airport: "AMS", arrival_airport: "ICN", departure_localtime: ISO8601DateFormatter().date(from: "2025-06-01T21:25:00+02:00")!, arrival_localtime: ISO8601DateFormatter().date(from: "2025-06-02T16:25:00+09:00")!, airline: "KLM", aircraft: "B777-200", flight_number: "KL855")
     container.mainContext.insert(flight)
     return Flights().modelContainer(container)
 }
