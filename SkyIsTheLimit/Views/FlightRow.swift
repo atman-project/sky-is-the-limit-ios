@@ -12,7 +12,7 @@ struct FlightRow: View {
     
     var body: some View {
         HStack {
-            Text("Icon")
+            FlightIcon(departure_airport: flight.departure_airport, arrival_airport: flight.arrival_airport)
             VStack(alignment: .leading) {
                 Text("\(flight.departure_airport) - \(flight.arrival_airport)")
                     .font(.title3)
