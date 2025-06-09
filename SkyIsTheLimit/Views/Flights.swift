@@ -16,9 +16,7 @@ struct Flights: View {
         NavigationSplitView {
             List {
                 ForEach(flights) { flight in
-                    NavigationLink {
-                        Text("Flight at \(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
+                    NavigationLink(destination: FlightDetail(flight: flight)) {
                         FlightRow(flight: flight)
                     }
                 }
