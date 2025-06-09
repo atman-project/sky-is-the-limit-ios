@@ -9,11 +9,13 @@ import SwiftUI
 
 struct FlightDetail: View {
     let flight: Flight
-    @State private var location: FlightLocation =  FlightLocation(latitude: 52.3125060567449, longitude: 4.745581811167513)
+    @State private var departure_location: FlightLocation =  FlightLocation(latitude: 52.3125060567449, longitude: 4.745581811167513)
+    @State private var arrival_location: FlightLocation =  FlightLocation(latitude: 37.4587, longitude: 126.4420)
 
     var body: some View {
         VStack {
-            FlightDetailMap(location: location, tintColor: .blue).ignoresSafeArea(.container)
+            FlightDetailMap(departure: departure_location, arrival: arrival_location)
+                .ignoresSafeArea(.container)
             Text("Flight: \(flight.flight_number)")
             Text("Departure: \(flight.departure_airport)")
             Text("DepartureLocaltime: \(flight.departure_localtime, format: Date.FormatStyle(date: .numeric, time: .standard))")

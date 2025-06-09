@@ -9,38 +9,36 @@ import SwiftUI
 import MapKit
 
 struct FlightDetailMap: View {
-    let location: FlightLocation
-    let tintColor: Color
-    private var place: FlightPlace
+    let departure: FlightLocation
+    let arrival: FlightLocation
     @State private var position: MapCameraPosition = .automatic
-    
-    init(location: FlightLocation, tintColor: Color) {
-        self.location = location
-        self.tintColor = tintColor
-        self.place = FlightPlace(location: location)
-    }
     
     var body: some View {
         Map(position: $position) {
-            Marker("", coordinate: place.location).tint(tintColor)
+            Marker("FROM", coordinate: departure.coordinate).tint(.blue)
+            Marker("TO", coordinate: arrival.coordinate).tint(.red)
+            MapPolyline(points: [
+                MKMapPoint(departure.coordinate),
+                MKMapPoint(arrival.coordinate)
+            ])
+            .stroke(.black, lineWidth: 3)
         }
         .onAppear {
             withAnimation {
-                var region = MKCoordinateRegion()
-                region.center = place.location
-                region.span = MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                position = .region(region)
+                let center = CLLocationCoordinate2D(
+                    latitude: (departure.latitude + arrival.latitude) / 2,
+                    longitude: (departure.longitude + arrival.longitude) / 2
+                )
+                let span = MKCoordinateSpan(latitudeDelta: abs(departure.latitude - arrival.latitude) * 1.5 + 0.5,
+                                            longitudeDelta: abs(departure.longitude - arrival.longitude) * 1.5 + 0.5)
+                position = .region(MKCoordinateRegion(center: center, span: span))
             }
         }
     }
 }
 
-struct FlightPlace: Identifiable {
-    let id: UUID
-    let location: CLLocationCoordinate2D
-    
-    init(id: UUID = UUID(), location: FlightLocation) {
-        self.id = id
-        self.location = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+extension FlightLocation {
+    var coordinate: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
