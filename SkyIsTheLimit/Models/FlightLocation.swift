@@ -10,4 +10,12 @@ import Foundation
 struct FlightLocation {
     var latitude: Double
     var longitude: Double
+    
+    static func from(airport: Airport?) -> Self {
+        return if let airport = airport {
+            FlightLocation(latitude: airport.latitude, longitude: airport.longitude)
+        } else {
+            FlightLocation(latitude: 0, longitude: 0)
+        }
+    }
 }
