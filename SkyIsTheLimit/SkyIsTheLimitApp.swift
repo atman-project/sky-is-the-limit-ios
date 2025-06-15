@@ -25,7 +25,7 @@ struct SkyIsTheLimitApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Flights()
+            MainTabView()
         }
         .modelContainer(sharedModelContainer)
     }
