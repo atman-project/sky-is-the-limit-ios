@@ -13,6 +13,9 @@ struct MainTabView: View {
             Flights().tabItem {
                 Label("Flights", systemImage: "airplane")
             }
+            SettingsView().tabItem {
+                Label("Settings", systemImage: "gearshape")
+            }
         }
     }
 }
