@@ -17,8 +17,9 @@ final class Flight {
     var airline: String
     var aircraft: String
     var flight_number: String
+    var booking_reference: String
 
-    init(departure_airport: String, arrival_airport: String, departure_localtime: Date, arrival_localtime: Date, airline: String, aircraft: String, flight_number: String) {
+    init(departure_airport: String, arrival_airport: String, departure_localtime: Date, arrival_localtime: Date, airline: String, aircraft: String, flight_number: String, booking_reference: String) {
         self.departure_airport = departure_airport
         self.arrival_airport = arrival_airport
         self.departure_localtime = departure_localtime
@@ -26,5 +27,6 @@ final class Flight {
         self.airline = airline
         self.aircraft = aircraft
         self.flight_number = flight_number
+        self.booking_reference = booking_reference
     }
 }

@@ -25,6 +25,7 @@ struct FlightDetail: View {
                 keyValueRow("Airline", flight.airline)
                 keyValueRow("Flight Number", flight.flight_number)
                 keyValueRow("Aircraft", flight.aircraft)
+                keyValueRow("Booking Reference", flight.booking_reference)
             }
             Section(header: Text("DEPARTURE")) {
                 keyValueRow("City/Country", Self.city_and_country(airport: departure_airport))
