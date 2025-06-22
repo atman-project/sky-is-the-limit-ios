@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		571023082DFED00D00F8A211 /* libanvil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 571023072DFED00D00F8A211 /* libanvil.a */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		57AAF04A2DED60370081D345 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		571022F32DFEC33300F8A211 /* libfoobar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfoobar.a; path = "../uniffi-starter/rust/target/ios/libfoobar-rs.xcframework/ios-arm64/libfoobar.a"; sourceTree = "<group>"; };
+		571022F52DFEC34900F8A211 /* foobarFFI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = foobarFFI.h; path = "../uniffi-starter/rust/target/ios/libfoobar-rs.xcframework/ios-arm64/Headers/foobarFFI.h"; sourceTree = "<group>"; };
+		571022F82DFEC7EB00F8A211 /* SkyIsTheLimit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SkyIsTheLimit-Bridging-Header.h"; sourceTree = "<group>"; };
+		571023022DFECE5800F8A211 /* anvil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = anvil.h; sourceTree = "<group>"; };
+		571023072DFED00D00F8A211 /* libanvil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libanvil.a; sourceTree = "<group>"; };
 		57AAF03A2DED60350081D345 /* SkyIsTheLimit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyIsTheLimit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AAF0492DED60370081D345 /* SkyIsTheLimitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyIsTheLimitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AAF0532DED60370081D345 /* SkyIsTheLimitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyIsTheLimitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				571023082DFED00D00F8A211 /* libanvil.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +82,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		571022F22DFEC33200F8A211 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				571022F52DFEC34900F8A211 /* foobarFFI.h */,
+				571022F32DFEC33300F8A211 /* libfoobar.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		571022F72DFEC7C200F8A211 /* Anvil */ = {
+			isa = PBXGroup;
+			children = (
+				571022F82DFEC7EB00F8A211 /* SkyIsTheLimit-Bridging-Header.h */,
+				571023022DFECE5800F8A211 /* anvil.h */,
+				571023072DFED00D00F8A211 /* libanvil.a */,
+			);
+			path = Anvil;
+			sourceTree = "<group>";
+		};
 		57AAF0312DED60350081D345 = {
 			isa = PBXGroup;
 			children = (
+				571022F72DFEC7C200F8A211 /* Anvil */,
 				57AAF03C2DED60350081D345 /* SkyIsTheLimit */,
 				57AAF04C2DED60370081D345 /* SkyIsTheLimitTests */,
 				57AAF0562DED60370081D345 /* SkyIsTheLimitUITests */,
+				571022F22DFEC33200F8A211 /* Frameworks */,
 				57AAF03B2DED60350081D345 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,6 +130,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 57AAF05D2DED60370081D345 /* Build configuration list for PBXNativeTarget "SkyIsTheLimit" */;
 			buildPhases = (
+				578BC4DF2E07C51800367BD5 /* Run Script */,
 				57AAF0362DED60350081D345 /* Sources */,
 				57AAF0372DED60350081D345 /* Frameworks */,
 				57AAF0382DED60350081D345 /* Resources */,
@@ -175,6 +207,7 @@
 				TargetAttributes = {
 					57AAF0392DED60350081D345 = {
 						CreatedOnToolsVersion = 16.4;
+						LastSwiftMigration = 1640;
 					};
 					57AAF0482DED60370081D345 = {
 						CreatedOnToolsVersion = 16.4;
@@ -230,6 +263,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		578BC4DF2E07C51800367BD5 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\n# Location of rust project\nRUST_PROJ=\"$PROJECT_DIR/Anvil\"\n# Location of the \"Anvil\" folder in the iOS project\nIOS_ANVIL=\"$PROJECT_DIR/Anvil\"\n# Provide access to Rust utilities\nPATH=\"$PATH:/Users/yjlee/.cargo/bin\"\n\ncd \"$RUST_PROJ\"\n# Generate C bindings\ncbindgen -l C -o target/anvil.h\n# Build for iOS architectures\ncargo build --target aarch64-apple-ios\ncargo build --target x86_64-apple-ios\n# Combine them into a universal library\nlipo -create target/aarch64-apple-ios/debug/libanvil.a target/x86_64-apple-ios/debug/libanvil.a -output target/libanvil.a\n# Copy resources to the iOS folder, overwriting old ones\ncp target/anvil.h target/libanvil.a \"$IOS_ANVIL\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		57AAF0362DED60350081D345 /* Sources */ = {
@@ -395,10 +449,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -409,10 +465,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Anvil",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.oudwud.SkyIsTheLimit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Anvil/SkyIsTheLimit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,10 +485,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -437,10 +501,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Anvil",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.oudwud.SkyIsTheLimit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Anvil/SkyIsTheLimit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
