@@ -30,6 +30,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		572187382E0FFBFA007135CC /* atman_core */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = atman_core;
+			sourceTree = "<group>";
+		};
 		57AAF03C2DED60350081D345 /* SkyIsTheLimit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SkyIsTheLimit;
@@ -75,6 +80,7 @@
 		57AAF0312DED60350081D345 = {
 			isa = PBXGroup;
 			children = (
+				572187382E0FFBFA007135CC /* atman_core */,
 				57AAF03C2DED60350081D345 /* SkyIsTheLimit */,
 				57AAF04C2DED60370081D345 /* SkyIsTheLimitTests */,
 				57AAF0562DED60370081D345 /* SkyIsTheLimitUITests */,
@@ -108,6 +114,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				572187382E0FFBFA007135CC /* atman_core */,
 				57AAF03C2DED60350081D345 /* SkyIsTheLimit */,
 			);
 			name = SkyIsTheLimit;
@@ -175,6 +182,7 @@
 				TargetAttributes = {
 					57AAF0392DED60350081D345 = {
 						CreatedOnToolsVersion = 16.4;
+						LastSwiftMigration = 1640;
 					};
 					57AAF0482DED60370081D345 = {
 						CreatedOnToolsVersion = 16.4;
@@ -395,6 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
@@ -409,10 +418,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/atman_core",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.oudwud.SkyIsTheLimit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "atman_core/SkyIsTheLimit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
@@ -437,10 +453,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/atman_core",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.oudwud.SkyIsTheLimit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "atman_core/SkyIsTheLimit-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

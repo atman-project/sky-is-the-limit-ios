@@ -17,6 +17,9 @@ struct MainTabView: View {
                 Label("Settings", systemImage: "gearshape")
             }
         }
+        .onAppear {
+            run()
+        }
     }
 }
 
