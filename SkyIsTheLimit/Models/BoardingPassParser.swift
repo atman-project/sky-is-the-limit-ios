@@ -10,45 +10,48 @@ import Foundation
 enum BoardingPassParser {
 
     // MARK: IATA BCBP spec (PDF-417 payload)
-    // Very rigid: fixed-width fields – easy!
     static func parseBCBP(_ raw: String) -> Flight? {
         print("parseBCBP: \(raw)")
-        return nil
         
-//        guard raw.hasPrefix("M") else { return nil }   // spec: always begins with 'M'
-//
-//        // Field offsets per IATA spec (simplified, single-segment boarding pass)
-//        // Positions are 1-based in doc, so subtract 1 for Swift String indices.
-//        func slice(_ start: Int, _ len: Int) -> String {
-//            let s = raw.index(raw.startIndex, offsetBy: start)
-//            let e = raw.index(s, offsetBy: len)
-//            return String(raw[s..<e]).trimmingCharacters(in: .whitespaces)
-//        }
-//
-//        let airlineCode      = slice(22, 3)           // e.g. "KE "
-//        let flightNumber     = slice(25, 5)           // "0123 "
-//        let fromIATA         = slice(30, 3)           // "ICN"
-//        let toIATA           = slice(33, 3)           // "SFO"
-//        let dayOfYearString  = slice(36, 3)           // "123"
-//        let julian           = Int(dayOfYearString) ?? 1
-//
-//        // Quick-n-dirty date: assume current year
-//        let calendar = Calendar(identifier: .gregorian)
-//        let depart   = calendar.date(from: DateComponents(
-//                          year: calendar.component(.year, from: .now),
-//                          ordinalDay: julian)) ?? .now
-//
-//        // Aircraft, booking ref, … aren’t in mandatory block → set empty
-//        return Flight(
-//            departureAirport: fromIATA,
-//            arrivalAirport: toIATA,
-//            departureLocalTime: depart,
-//            arrivalLocalTime: depart,          // unknown → override later
-//            airline: airlineCode.trimmingCharacters(in: .whitespaces),
-//            aircraft: "",
-//            flightNumber: flightNumber.trimmingCharacters(in: .whitespaces),
-//            bookingReference: ""
-//        )
+        guard raw.hasPrefix("M") else { return nil }   // spec: always begins with 'M'
+
+        func slice(_ start: Int, _ len: Int) -> String {
+            let s = raw.index(raw.startIndex, offsetBy: start)
+            let e = raw.index(s, offsetBy: len)
+            return String(raw[s..<e]).trimmingCharacters(in: .whitespaces)
+        }
+
+        let departureIATA = slice(30, 3) // "ICN"
+        let arrivalIATA = slice(33, 3) // "SFO"
+        let airlineCode = slice(36, 2) // "KE"
+        let flightNumber = slice(39, 4) // "0123"
+        let dayOfYear = Int(slice(44, 3)) ?? 1 // "198" (17 Jul)
+        
+        let departureAirport = AirportProvider.shared.get(iata: departureIATA)
+
+        // Quick-n-dirty: Convert dayOfYear to Date, assuming current year
+        let calendar = Calendar(identifier: .gregorian)
+        let year = calendar.component(.year, from: .now)
+        var comps = DateComponents()
+        comps.calendar = calendar
+        comps.year = year
+        comps.dayOfYear = dayOfYear
+        comps.hour = 12
+        comps.minute = 0
+        comps.timeZone = TimeZone(identifier: departureAirport?.tzDatabaseTimezone ?? "UTC")
+        let depart = calendar.date(from: comps) ?? .now
+        
+        return Flight(
+            departure_airport: departureIATA,
+            arrival_airport: arrivalIATA,
+            departure_localtime: depart,
+            // Just setting the arrival time the same as the departure time
+            arrival_localtime: depart,
+            airline: "UNKNOWN",
+            aircraft: "UNKNOWN",
+            flight_number: "\(airlineCode)\(flightNumber)",
+            booking_reference: "UNKNOWN",
+        )
     }
 
     // MARK: OCR fallback (heuristic with regexes)

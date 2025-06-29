@@ -53,13 +53,12 @@ extension BoardingPassScannerViewModel {
 
     /// Try barcode first (fast), fall back to OCR.
     private func analyzeImage(_ image: UIImage) async throws -> Flight? {
-
         // 1️⃣ BARCODE branch
         if let payload = try await decodeBarcode(in: image),
            let flight = BoardingPassParser.parseBCBP(payload) {
             return flight
         }
-
+        
         // 2️⃣ OCR branch
         if let ocrText = try await recognizeText(in: image),
            let flight = BoardingPassParser.parseOCR(ocrText) {

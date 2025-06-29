@@ -16,6 +16,7 @@ struct FlightForm: View {
 
     @StateObject private var scannerVM: BoardingPassScannerViewModel
     @State private var showScanner = false
+    @State private var showAlertScannedFlight = false
 
     @State private var departureAirport = ""
     @State private var arrivalAirport = ""
@@ -62,14 +63,14 @@ struct FlightForm: View {
         NavigationView {
             Form {
                 Section {
-                    Button("Scan Boarding Pass") {
+                    Button {
                         showScanner = true
+                    } label: {
+                        Label("Scan Boarding Pass", systemImage: "camera")
                     }
-                    .sheet(isPresented: $showScanner) {
+                    .fullScreenCover(isPresented: $showScanner) {
                         CameraSheet { image in
                             scannerVM.handleCapturedImage(image) { parsed in
-                                print("Parsed flight: \(String(describing: parsed))")
-                                print("Last error: \(scannerVM.lastError ?? "None")")
                                 if let parsed = parsed {
                                     departureAirport = parsed.departure_airport
                                     arrivalAirport = parsed.arrival_airport
@@ -79,9 +80,15 @@ struct FlightForm: View {
                                     aircraft = parsed.aircraft
                                     flightNumber = parsed.flight_number
                                     bookingReference = parsed.booking_reference
+                                    showAlertScannedFlight = true
                                 }
                             }
                         }
+                    }
+                    .alert("Boarding Pass Scanned", isPresented: $showAlertScannedFlight) {
+                        Button("OK", role: .cancel) { showAlertScannedFlight = false }
+                    } message: {
+                        Text("Flight details have been filled from the scanned boarding pass, but check details manually.")
                     }
                     .alert("Scan Error", isPresented: Binding<Bool>(
                         get: { scannerVM.lastError != nil },
