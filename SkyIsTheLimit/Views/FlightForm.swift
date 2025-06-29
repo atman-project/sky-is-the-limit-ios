@@ -103,6 +103,10 @@ struct FlightForm: View {
                 Section(header: Text("DEPARTURE")) {
                     LabeledContent("Airport") {
                         TextField("ICN", text: $departureAirport)
+                            .textInputAutocapitalization(.characters)
+                            .onChange(of: departureAirport) {
+                                departureAirport = departureAirport.uppercased()
+                            }
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                             .textInputAutocapitalization(.characters)
@@ -131,6 +135,10 @@ struct FlightForm: View {
                 Section(header: Text("ARRIVAL")) {
                     LabeledContent("Airport") {
                         TextField("CDG", text: $arrivalAirport)
+                            .textInputAutocapitalization(.characters)
+                            .onChange(of: arrivalAirport) {
+                                arrivalAirport = arrivalAirport.uppercased()
+                            }
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                             .textInputAutocapitalization(.characters)
@@ -159,6 +167,11 @@ struct FlightForm: View {
                 Section(header: Text("FLIGHT DETAILS")) {
                     LabeledContent("Flight Number") {
                         TextField("KE1234", text: $flightNumber)
+                            .textInputAutocapitalization(.characters)
+                            .keyboardType(.asciiCapable)
+                            .onChange(of: flightNumber) {
+                                flightNumber = flightNumber.uppercased()
+                            }
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                     }
@@ -169,11 +182,21 @@ struct FlightForm: View {
                     }
                     LabeledContent("Aircraft") {
                         TextField("A380-800", text: $aircraft)
+                            .textInputAutocapitalization(.characters)
+                            .keyboardType(.asciiCapable)
+                            .onChange(of: aircraft) {
+                                aircraft = aircraft.uppercased()
+                            }
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                     }
                     LabeledContent("Booking Reference") {
                         TextField("ABCDEF", text: $bookingReference)
+                            .textInputAutocapitalization(.characters)
+                            .keyboardType(.asciiCapable)
+                            .onChange(of: bookingReference) {
+                                bookingReference = bookingReference.uppercased()
+                            }
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
                     }
