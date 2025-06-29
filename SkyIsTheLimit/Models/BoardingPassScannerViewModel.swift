@@ -15,12 +15,6 @@ final class BoardingPassScannerViewModel: ObservableObject {
     @Published var isPresentingCamera = false
     @Published var lastError: String?
 
-    private let modelContext: ModelContext
-
-    init(context: ModelContext) {
-        self.modelContext = context
-    }
-
     // Entry point called by the SwiftUI view
     func addFlightFromCamera() {
         isPresentingCamera = true
@@ -32,7 +26,6 @@ final class BoardingPassScannerViewModel: ObservableObject {
         Task {
             do {
                 if let flight = try await analyzeImage(uiImage) {
-                    modelContext.insert(flight)
                     completion(flight)
                 } else {
                     lastError = "Nothing was scanned"

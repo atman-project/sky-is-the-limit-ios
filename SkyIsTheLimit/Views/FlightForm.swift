@@ -11,7 +11,6 @@ import SwiftData
 
 struct FlightForm: View {
     var onSubmit: (Flight) -> Void
-    var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss
 
     @StateObject private var scannerVM: BoardingPassScannerViewModel
@@ -53,10 +52,9 @@ struct FlightForm: View {
             }
     }
 
-    init(onSubmit: @escaping (Flight) -> Void, modelContext: ModelContext) {
+    init(onSubmit: @escaping (Flight) -> Void) {
         self.onSubmit = onSubmit
-        self.modelContext = modelContext
-        _scannerVM = StateObject(wrappedValue: BoardingPassScannerViewModel(context: modelContext))
+        _scannerVM = StateObject(wrappedValue: BoardingPassScannerViewModel())
     }
 
     var body: some View {
