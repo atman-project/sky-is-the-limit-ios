@@ -73,7 +73,8 @@ struct FlightForm: View {
                         }
                     }
 
-                    DatePicker("Date / Time", selection: $departureTime)
+                    DatePicker("Date / Time", selection: $departureTime, displayedComponents: [.date, .hourAndMinute])
+                        .datePickerStyle(.compact)
                 }
 
                 Section(header: Text("ARRIVAL")) {
@@ -99,8 +100,9 @@ struct FlightForm: View {
                             }
                         }
                     }
-
-                    DatePicker("Date / Time", selection: $arrivalTime)
+                    
+                    DatePicker("Date / Time", selection: $arrivalTime, displayedComponents: [.date, .hourAndMinute])
+                        .datePickerStyle(.compact)
                 }
 
                 Section(header: Text("FLIGHT DETAILS")) {
