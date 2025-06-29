@@ -39,7 +39,7 @@ struct Flights: View {
             Text("Select a Flight")
         }
         .sheet(isPresented: $isPresentingFlightForm) {
-            FlightForm { flight in
+            FlightForm(onSubmit: { flight in
                 withAnimation {
                     modelContext.insert(flight)
                     if let json = try? encodeToJSON(FlightDTO(from: flight)) {
@@ -51,7 +51,7 @@ struct Flights: View {
                     }
                 }
                 isPresentingFlightForm = false
-            }
+            }, modelContext: modelContext)
         }
     }
 

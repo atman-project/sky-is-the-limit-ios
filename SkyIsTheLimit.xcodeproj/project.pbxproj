@@ -29,6 +29,16 @@
 		57AAF0532DED60370081D345 /* SkyIsTheLimitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyIsTheLimitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		577F51502E1150B000E62839 /* Exceptions for "SkyIsTheLimit" folder in "SkyIsTheLimit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 57AAF0392DED60350081D345 /* SkyIsTheLimit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		572187382E0FFBFA007135CC /* atman_core */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +47,9 @@
 		};
 		57AAF03C2DED60350081D345 /* SkyIsTheLimit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				577F51502E1150B000E62839 /* Exceptions for "SkyIsTheLimit" folder in "SkyIsTheLimit" target */,
+			);
 			path = SkyIsTheLimit;
 			sourceTree = "<group>";
 		};
@@ -408,7 +421,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkyIsTheLimit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app scans your boarding pass to fill flight details.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Saves the captured boarding-pass photo to your library (optional).";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app may access your photo library to select a boarding pass image.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -443,7 +461,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LHWVMCP8N7;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkyIsTheLimit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app scans your boarding pass to fill flight details.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Saves the captured boarding-pass photo to your library (optional).";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app may access your photo library to select a boarding pass image.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import Vision
+import SwiftData
 
 struct FlightForm: View {
     var onSubmit: (Flight) -> Void
+    var modelContext: ModelContext
     @Environment(\.dismiss) private var dismiss
+
+    @StateObject private var scannerVM: BoardingPassScannerViewModel
+    @State private var showScanner = false
 
     @State private var departureAirport = ""
     @State private var arrivalAirport = ""
@@ -46,9 +52,47 @@ struct FlightForm: View {
             }
     }
 
+    init(onSubmit: @escaping (Flight) -> Void, modelContext: ModelContext) {
+        self.onSubmit = onSubmit
+        self.modelContext = modelContext
+        _scannerVM = StateObject(wrappedValue: BoardingPassScannerViewModel(context: modelContext))
+    }
+
     var body: some View {
         NavigationView {
             Form {
+                Section {
+                    Button("Scan Boarding Pass") {
+                        showScanner = true
+                    }
+                    .sheet(isPresented: $showScanner) {
+                        CameraSheet { image in
+                            scannerVM.handleCapturedImage(image) { parsed in
+                                print("Parsed flight: \(String(describing: parsed))")
+                                print("Last error: \(scannerVM.lastError ?? "None")")
+                                if let parsed = parsed {
+                                    departureAirport = parsed.departure_airport
+                                    arrivalAirport = parsed.arrival_airport
+                                    departureTime = parsed.departure_localtime
+                                    arrivalTime = parsed.arrival_localtime
+                                    airline = parsed.airline
+                                    aircraft = parsed.aircraft
+                                    flightNumber = parsed.flight_number
+                                    bookingReference = parsed.booking_reference
+                                }
+                            }
+                        }
+                    }
+                    .alert("Scan Error", isPresented: Binding<Bool>(
+                        get: { scannerVM.lastError != nil },
+                        set: { if !$0 { scannerVM.lastError = nil } }
+                    ), actions: {
+                        Button("OK", role: .cancel) { scannerVM.lastError = nil }
+                    }, message: {
+                        Text(scannerVM.lastError ?? "")
+                    })
+                }
+                
                 Section(header: Text("DEPARTURE")) {
                     LabeledContent("Airport") {
                         TextField("ICN", text: $departureAirport)
