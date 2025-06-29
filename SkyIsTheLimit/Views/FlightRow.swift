@@ -11,14 +11,14 @@ struct FlightRow: View {
     var flight: Flight
     
     var body: some View {
-        let departure_airport = AirportProvider.shared.get(iata: flight.departure_airport)
+        let departureAirport = AirportProvider.shared.get(iata: flight.departureAirport)
         
         HStack {
-            FlightIcon(departure_airport: flight.departure_airport, arrival_airport: flight.arrival_airport)
+            FlightIcon(departure_airport: flight.departureAirport, arrival_airport: flight.arrivalAirport)
             VStack(alignment: .leading) {
-                Text("\(flight.departure_airport) - \(flight.arrival_airport)")
+                Text("\(flight.departureAirport) - \(flight.arrivalAirport)")
                     .font(.title3)
-                Text("\(flight.departure_localtime.format(timezoneId: departure_airport?.tzDatabaseTimezone))")
+                Text("\(flight.departureLocalTime.format(timezoneId: departureAirport?.tzDatabaseTimezone))")
                     .foregroundStyle(.secondary)
             }
         }

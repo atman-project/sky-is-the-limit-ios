@@ -72,14 +72,14 @@ struct FlightForm: View {
                         CameraSheet { image in
                             scannerVM.handleCapturedImage(image) { parsed in
                                 if let parsed = parsed {
-                                    departureAirport = parsed.departure_airport
-                                    arrivalAirport = parsed.arrival_airport
-                                    departureTime = parsed.departure_localtime
-                                    arrivalTime = parsed.arrival_localtime
+                                    departureAirport = parsed.departureAirport
+                                    arrivalAirport = parsed.arrivalAirport
+                                    departureTime = parsed.departureLocalTime
+                                    arrivalTime = parsed.arrivalLocalTime
                                     airline = parsed.airline
                                     aircraft = parsed.aircraft
-                                    flightNumber = parsed.flight_number
-                                    bookingReference = parsed.booking_reference
+                                    flightNumber = parsed.flightNumber
+                                    bookingReference = parsed.bookingReference
                                     showAlertScannedFlight = true
                                 }
                             }
@@ -188,14 +188,14 @@ struct FlightForm: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
                         let flight = Flight(
-                            departure_airport: departureAirport,
-                            arrival_airport: arrivalAirport,
-                            departure_localtime: departureTime,
-                            arrival_localtime: arrivalTime,
+                            departureAirport: departureAirport,
+                            arrivalAirport: arrivalAirport,
+                            departureLocalTime: departureTime,
+                            arrivalLocalTime: arrivalTime,
                             airline: airline,
                             aircraft: aircraft,
-                            flight_number: flightNumber,
-                            booking_reference: bookingReference
+                            flightNumber: flightNumber,
+                            bookingReference: bookingReference
                         )
                         onSubmit(flight)
                     }

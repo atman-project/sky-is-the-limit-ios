@@ -42,15 +42,15 @@ enum BoardingPassParser {
         let depart = calendar.date(from: comps) ?? .now
         
         return Flight(
-            departure_airport: departureIATA,
-            arrival_airport: arrivalIATA,
-            departure_localtime: depart,
+            departureAirport: departureIATA,
+            arrivalAirport: arrivalIATA,
+            departureLocalTime: depart,
             // Just setting the arrival time the same as the departure time
-            arrival_localtime: depart,
+            arrivalLocalTime: depart,
             airline: "UNKNOWN",
             aircraft: "UNKNOWN",
-            flight_number: "\(airlineCode)\(flightNumber)",
-            booking_reference: "UNKNOWN",
+            flightNumber: "\(airlineCode)\(flightNumber)",
+            bookingReference: "UNKNOWN",
         )
     }
 

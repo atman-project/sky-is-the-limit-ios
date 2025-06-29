@@ -11,32 +11,32 @@ struct FlightDetail: View {
     let flight: Flight
     
     var body: some View {
-        let departure_airport = AirportProvider.shared.get(iata: flight.departure_airport)
-        let arrival_airport = AirportProvider.shared.get(iata: flight.arrival_airport)
+        let departureAirport = AirportProvider.shared.get(iata: flight.departureAirport)
+        let arrivalAirport = AirportProvider.shared.get(iata: flight.arrivalAirport)
         
         List {
             Section {
-                FlightDetailMap(departure: FlightLocation.from(airport: departure_airport), arrival: FlightLocation.from(airport: arrival_airport))
+                FlightDetailMap(departure: FlightLocation.from(airport: departureAirport), arrival: FlightLocation.from(airport: arrivalAirport))
                     .frame(height: 240)
                     .listRowInsets(EdgeInsets()) // full-width map
             }
             Section(header: Text("SUMMARY")) {
-                keyValueRow("Route", "\(flight.departure_airport)-\(flight.arrival_airport)")
+                keyValueRow("Route", "\(flight.departureAirport)-\(flight.arrivalAirport)")
                 keyValueRow("Airline", flight.airline)
-                keyValueRow("Flight Number", flight.flight_number)
+                keyValueRow("Flight Number", flight.flightNumber)
                 keyValueRow("Aircraft", flight.aircraft)
-                keyValueRow("Booking Reference", flight.booking_reference)
+                keyValueRow("Booking Reference", flight.bookingReference)
             }
             Section(header: Text("DEPARTURE")) {
-                keyValueRow("City/Country", Self.city_and_country(airport: departure_airport))
-                keyValueRow("Date/Time", flight.departure_localtime.format(timezoneId: departure_airport?.tzDatabaseTimezone))
+                keyValueRow("City/Country", Self.city_and_country(airport: departureAirport))
+                keyValueRow("Date/Time", flight.departureLocalTime.format(timezoneId: departureAirport?.tzDatabaseTimezone))
             }
             Section(header: Text("Arrival")) {
-                keyValueRow("City/Country", Self.city_and_country(airport: arrival_airport))
-                keyValueRow("Date/Time", flight.arrival_localtime.format(timezoneId: arrival_airport?.tzDatabaseTimezone))
+                keyValueRow("City/Country", Self.city_and_country(airport: arrivalAirport))
+                keyValueRow("Date/Time", flight.arrivalLocalTime.format(timezoneId: arrivalAirport?.tzDatabaseTimezone))
             }
         }
-        .navigationTitle("\(flight.departure_airport)-\(flight.arrival_airport)")
+        .navigationTitle("\(flight.departureAirport)-\(flight.arrivalAirport)")
         .navigationBarTitleDisplayMode(.inline)
     }
     
