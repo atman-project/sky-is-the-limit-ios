@@ -123166,5 +123166,21 @@
     "Tz database timezone":"\\N",
     "Type":"airport",
     "Source":"OurAirports"
+  },
+  {
+    "Airport ID":14111,
+    "Name":"Berlin Brandenburg Airport",
+    "City":"Berlin",
+    "Country":"Germany",
+    "IATA":"BER",
+    "ICAO":"EDDB",
+    "Latitude":52.366667,
+    "Longitude":13.503333,
+    "Altitude":48,
+    "Timezone":"1",
+    "DST":"E",
+    "Tz database timezone":"Europe\/Berlin",
+    "Type":"airport",
+    "Source":"Wikipedia"
   }
 ]
