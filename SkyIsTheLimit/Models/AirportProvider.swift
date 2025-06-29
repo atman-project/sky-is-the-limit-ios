@@ -21,7 +21,7 @@ final class AirportProvider {
             NSLog("❌ airports.json not found")
             return
         }
-        NSLog("airport.json loaded successfully")
+        NSLog("airports.json loaded successfully")
         
         do {
             let data = try Data(contentsOf: url)

@@ -28,13 +28,13 @@ struct FlightForm: View {
     
     // Which text field is active?
     @FocusState private var focused: Field?
-    private enum Field { case dep, arr }
+    private enum Field { case fieldDepartureAirport, fieldArrivalAirpot, fieldAirline }
 
     // Live suggestions
     private var depSuggestions: [Airport] {
         guard !departureAirport.isEmpty else { return [] }
         return AirportProvider.shared.airports
-            .compactMap { airport in
+            .compactMap { (airport: Airport) in
                 guard let code = airport.iata?.lowercased(), code.hasPrefix(departureAirport.lowercased()) else {
                     return nil
                 }
@@ -44,11 +44,21 @@ struct FlightForm: View {
     private var arrSuggestions: [Airport] {
         guard !arrivalAirport.isEmpty else { return [] }
         return AirportProvider.shared.airports
-            .compactMap { airport in
+            .compactMap { (airport: Airport) in
                 guard let code = airport.iata?.lowercased(), code.hasPrefix(arrivalAirport.lowercased()) else {
                     return nil
                 }
                 return airport
+            }
+    }
+    private var airlineSuggestions: [Airline] {
+        guard !airline.isEmpty else { return [] }
+        return AirlineProvider.shared.airlines
+            .compactMap { (a: Airline) in
+                guard a.name.lowercased().hasPrefix(airline.lowercased()) else {
+                    return nil
+                }
+                return a
             }
     }
 
@@ -109,14 +119,14 @@ struct FlightForm: View {
                             .lineLimit(1)
                             .textInputAutocapitalization(.characters)
                             .autocorrectionDisabled()
-                            .focused($focused, equals: .dep)
+                            .focused($focused, equals: .fieldDepartureAirport)
                     }
 
-                    if focused == .dep {
-                        ForEach(depSuggestions, id: \.iata) { ap in
+                    if focused == .fieldDepartureAirport {
+                        ForEach(depSuggestions, id: \Airport.iata) { (ap: Airport) in
                             Button {
                                 departureAirport = ap.iata ?? ""
-                                focused = .arr
+                                focused = .fieldArrivalAirpot
                             } label: {
                                 HStack {
                                     Text(ap.iata ?? "").bold()
@@ -141,11 +151,11 @@ struct FlightForm: View {
                             .lineLimit(1)
                             .textInputAutocapitalization(.characters)
                             .autocorrectionDisabled()
-                            .focused($focused, equals: .arr)
+                            .focused($focused, equals: .fieldArrivalAirpot)
                     }
 
-                    if focused == .arr {
-                        ForEach(arrSuggestions, id: \.iata) { ap in
+                    if focused == .fieldArrivalAirpot {
+                        ForEach(arrSuggestions, id: \Airport.iata) { (ap: Airport) in
                             Button {
                                 arrivalAirport = ap.iata ?? ""
                                 focused = nil
@@ -177,6 +187,20 @@ struct FlightForm: View {
                         TextField("Korean Air", text: $airline)
                             .multilineTextAlignment(.trailing)
                             .lineLimit(1)
+                            .autocorrectionDisabled()
+                            .focused($focused, equals: .fieldAirline)
+                    }
+                    if focused == .fieldAirline {
+                        ForEach(airlineSuggestions, id: \Airline.id) { (a: Airline) in
+                            Button {
+                                airline = a.name
+                                focused = nil
+                            } label: {
+                                HStack {
+                                    Text(a.name).bold()
+                                }
+                            }
+                        }
                     }
                     LabeledContent("Aircraft") {
                         TextField("A380-800", text: $aircraft)
