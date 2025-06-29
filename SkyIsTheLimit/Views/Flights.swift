@@ -41,8 +41,16 @@ struct Flights: View {
 
     private func addFlight() {
         withAnimation {
-            let newFlight = Flight(departure_airport: "AMS", arrival_airport: "ICN", departure_localtime: ISO8601DateFormatter().date(from: "2025-06-01T21:25:00+02:00")!, arrival_localtime: ISO8601DateFormatter().date(from: "2025-06-02T16:25:00+09:00")!, airline: "KLM", aircraft: "B777-200", flight_number: "KL855", booking_reference: "ABCDEF")
-            modelContext.insert(newFlight)
+            let flight = Flight(departure_airport: "AMS", arrival_airport: "ICN", departure_localtime: ISO8601DateFormatter().date(from: "2025-06-01T21:25:00+02:00")!, arrival_localtime: ISO8601DateFormatter().date(from: "2025-06-02T16:25:00+09:00")!, airline: "KLM", aircraft: "B777-200", flight_number: "KL855", booking_reference: "ABCDEF")
+            modelContext.insert(flight)
+            
+            guard let json = try? encodeToJSON(FlightDTO(from: flight)) else {
+                print("JSON encoding failed")
+                return
+            }
+            withUnsafePointer(json) { ptr, len in
+                send_atman_core_message(ptr, len)
+            }
         }
     }
 

@@ -19,8 +19,6 @@ struct MainTabView: View {
         }
         .onAppear {
             run_atman_core()
-            sleep(3)
-            send_atman_core_message("abc", 3)
         }
     }
 }
