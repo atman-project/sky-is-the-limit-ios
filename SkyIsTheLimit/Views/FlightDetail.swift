@@ -22,6 +22,7 @@ struct FlightDetail: View {
             }
             Section(header: Text("SUMMARY")) {
                 keyValueRow("Route", "\(flight.departureAirport)-\(flight.arrivalAirport)")
+                keyValueRow("Duration", Self.durationString(from: flight.departureLocalTime, to: flight.arrivalLocalTime))
                 keyValueRow("Airline", flight.airline)
                 keyValueRow("Flight Number", flight.flightNumber)
                 keyValueRow("Aircraft", flight.aircraft)
@@ -60,5 +61,12 @@ struct FlightDetail: View {
             Text(value)
                 .foregroundColor(.primary).textSelection(.enabled)
         }
+    }
+    
+    static func durationString(from start: Date, to end: Date) -> String {
+        let interval = end.timeIntervalSince(start)
+        let hours = Int(interval) / 3600
+        let minutes = (Int(interval) % 3600) / 60
+        return "\(hours)h \(minutes)m"
     }
 }
