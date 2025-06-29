@@ -9,7 +9,7 @@ import Foundation
 
 final class AirportProvider {
     static let shared = AirportProvider()
-    private var airports: [Airport] = []
+    public var airports: [Airport] = []
     
     private init() {
         NSLog("loading airports")

@@ -11,6 +11,7 @@ import SwiftData
 struct Flights: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var flights: [Flight]
+    @State private var isPresentingFlightForm = false
 
     var body: some View {
         NavigationSplitView {
@@ -29,7 +30,7 @@ struct Flights: View {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addFlight) {
+                    Button(action: { isPresentingFlightForm = true }) {
                         Label("Add Flight", systemImage: "plus")
                     }
                 }
@@ -37,19 +38,19 @@ struct Flights: View {
         } detail: {
             Text("Select a Flight")
         }
-    }
-
-    private func addFlight() {
-        withAnimation {
-            let flight = Flight(departure_airport: "AMS", arrival_airport: "ICN", departure_localtime: ISO8601DateFormatter().date(from: "2025-06-01T21:25:00+02:00")!, arrival_localtime: ISO8601DateFormatter().date(from: "2025-06-02T16:25:00+09:00")!, airline: "KLM", aircraft: "B777-200", flight_number: "KL855", booking_reference: "ABCDEF")
-            modelContext.insert(flight)
-            
-            guard let json = try? encodeToJSON(FlightDTO(from: flight)) else {
-                print("JSON encoding failed")
-                return
-            }
-            withUnsafePointer(json) { ptr, len in
-                send_atman_core_message(ptr, len)
+        .sheet(isPresented: $isPresentingFlightForm) {
+            FlightForm { flight in
+                withAnimation {
+                    modelContext.insert(flight)
+                    if let json = try? encodeToJSON(FlightDTO(from: flight)) {
+                        withUnsafePointer(json) { ptr, len in
+                            send_atman_core_message(ptr, len)
+                        }
+                    } else {
+                        print("JSON encoding failed")
+                    }
+                }
+                isPresentingFlightForm = false
             }
         }
     }
