@@ -44,7 +44,7 @@ struct Flights: View {
                     modelContext.insert(flight)
                     if let json = try? encodeToJSON(FlightDTO(from: flight)) {
                         withUnsafePointer(json) { ptr, len in
-                            send_atman_core_message(ptr, len)
+                            send_atman_message(ptr, len)
                         }
                     } else {
                         print("JSON encoding failed")

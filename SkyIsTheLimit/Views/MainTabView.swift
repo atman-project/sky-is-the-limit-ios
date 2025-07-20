@@ -18,7 +18,7 @@ struct MainTabView: View {
             }
         }
         .onAppear {
-            run_atman_core()
+            run_atman()
         }
     }
 }
