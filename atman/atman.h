@@ -6,9 +6,11 @@
 void run_atman(void);
 
 /**
- * Send a message to Atman.
+ * Send a [`Command`] to Atman.
+ * This accepts a JSON-represented command as a byte array,
+ * converts it to a [`Command`], and sends it to Atman.
  *
  * # Safety
  * `msg` must be a valid pointer to a byte array of length `len`.
  */
-void send_atman_message(const uint8_t *msg, uintptr_t len);
+void send_atman_command(const uint8_t *cmd, uintptr_t len);

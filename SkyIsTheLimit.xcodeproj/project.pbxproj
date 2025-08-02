@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		574296692E3E3C4500F75DCC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574296682E3E3C4500F75DCC /* SystemConfiguration.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		57AAF04A2DED60370081D345 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		574296682E3E3C4500F75DCC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		57AAF03A2DED60350081D345 /* SkyIsTheLimit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyIsTheLimit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AAF0492DED60370081D345 /* SkyIsTheLimitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyIsTheLimitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AAF0532DED60370081D345 /* SkyIsTheLimitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyIsTheLimitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				574296692E3E3C4500F75DCC /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		574296672E3E3C4500F75DCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				574296682E3E3C4500F75DCC /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		57AAF0312DED60350081D345 = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +111,7 @@
 				57AAF03C2DED60350081D345 /* SkyIsTheLimit */,
 				57AAF04C2DED60370081D345 /* SkyIsTheLimitTests */,
 				57AAF0562DED60370081D345 /* SkyIsTheLimitUITests */,
+				574296672E3E3C4500F75DCC /* Frameworks */,
 				57AAF03B2DED60350081D345 /* Products */,
 			);
 			sourceTree = "<group>";
