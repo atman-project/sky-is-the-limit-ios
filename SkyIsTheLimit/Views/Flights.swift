@@ -42,13 +42,7 @@ struct Flights: View {
             FlightForm { flight in
                 withAnimation {
                     modelContext.insert(flight)
-                    if let json = try? encodeToJSON(FlightDTO(from: flight)) {
-                        withUnsafePointer(json) { ptr, len in
-                            send_atman_command(ptr, len)
-                        }
-                    } else {
-                        print("JSON encoding failed")
-                    }
+                    sendFlightToAtman(flight)
                 }
                 isPresentingFlightForm = false
             }
@@ -59,6 +53,31 @@ struct Flights: View {
         withAnimation {
             for index in offsets {
                 modelContext.delete(flights[index])
+            }
+        }
+    }
+}
+
+func sendFlightToAtman(_ flight: Flight) {
+    guard let json = try? encodeToJSON(FlightDTO(from: flight)) else {
+        print("JSON encoding failed")
+        return
+    }
+    
+    let docSpace = Array("/air".utf8)
+    let docId = Array("flights".utf8)
+    docSpace.withUnsafeBytes { docSpacePtr in
+        docId.withUnsafeBytes { docIdPtr in
+            withUnsafePointer(json) { dataPtr, dataLen in
+                let cmd = SyncUpdateCommand(
+                    doc_space: docSpacePtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                    doc_space_len: UInt(docSpacePtr.count),
+                    doc_id: docIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                    doc_id_len: UInt(docIdPtr.count),
+                    data: dataPtr,
+                    data_len: dataLen,
+                )
+                send_atman_sync_update_command(cmd)
             }
         }
     }
