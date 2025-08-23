@@ -42,7 +42,7 @@ struct Flights: View {
             FlightForm { flight in
                 withAnimation {
                     modelContext.insert(flight)
-                    sendFlightToAtman(flight)
+                    insertFlightToAtman(flight, index: 0)
                 }
                 isPresentingFlightForm = false
             }
@@ -58,26 +58,32 @@ struct Flights: View {
     }
 }
 
-func sendFlightToAtman(_ flight: Flight) {
+func insertFlightToAtman(_ flight: Flight, index: UInt) {
     guard let json = try? encodeToJSON(FlightDTO(from: flight)) else {
         print("JSON encoding failed")
         return
     }
     
-    let docSpace = Array("/air".utf8)
-    let docId = Array("flights".utf8)
+    let docSpace = Array("/aviation".utf8)
+    let docId = Array("flight".utf8)
+    let property = Array("flights".utf8)
     docSpace.withUnsafeBytes { docSpacePtr in
         docId.withUnsafeBytes { docIdPtr in
-            withUnsafePointer(json) { dataPtr, dataLen in
-                let cmd = SyncUpdateCommand(
-                    doc_space: docSpacePtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    doc_space_len: UInt(docSpacePtr.count),
-                    doc_id: docIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    doc_id_len: UInt(docIdPtr.count),
-                    data: dataPtr,
-                    data_len: dataLen,
-                )
-                send_atman_sync_update_command(cmd)
+            property.withUnsafeBytes { propertyPtr in
+                withUnsafePointer(json) { dataPtr, dataLen in
+                    let cmd = SyncListInsertCommand(
+                        doc_space: docSpacePtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                        doc_space_len: UInt(docSpacePtr.count),
+                        doc_id: docIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                        doc_id_len: UInt(docIdPtr.count),
+                        property: propertyPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
+                        property_len: UInt(propertyPtr.count),
+                        data: dataPtr,
+                        data_len: dataLen,
+                        index: index,
+                    )
+                    send_atman_sync_list_insert_command(cmd)
+                }
             }
         }
     }

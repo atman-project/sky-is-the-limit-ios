@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Flight: Identifiable {
+final class Flight: Identifiable, Equatable {
     var id: UUID
     var departureAirport: String
     var arrivalAirport: String
@@ -71,4 +71,8 @@ extension FlightDTO {
                flightNumber: self.flightNumber,
                bookingReference: self.bookingReference)
     }
+}
+
+struct FlightsDTO: Codable {
+    var flights: [FlightDTO]
 }

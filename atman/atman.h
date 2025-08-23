@@ -12,17 +12,19 @@ typedef struct SyncUpdateCommand {
   uintptr_t data_len;
 } SyncUpdateCommand;
 
-void run_atman(void);
+typedef struct SyncListInsertCommand {
+  const uint8_t *doc_space;
+  uintptr_t doc_space_len;
+  const uint8_t *doc_id;
+  uintptr_t doc_id_len;
+  const uint8_t *property;
+  uintptr_t property_len;
+  const uint8_t *data;
+  uintptr_t data_len;
+  uintptr_t index;
+} SyncListInsertCommand;
 
-/**
- * Send a [`Command`] to Atman.
- * This accepts a JSON-represented command as a byte array,
- * converts it to a [`Command`], and sends it to Atman.
- *
- * # Safety
- * `msg` must be a valid pointer to a byte array of length `len`.
- */
-void send_atman_command(const uint8_t *cmd, uintptr_t len);
+void run_atman(void);
 
 /**
  * Send a [`SyncUpdateCommand`] to Atman.
@@ -31,3 +33,11 @@ void send_atman_command(const uint8_t *cmd, uintptr_t len);
  * all fields in [`SyncUpdateCommand`] must be valid pointers to byte arrays of the corresponding length.
  */
 void send_atman_sync_update_command(struct SyncUpdateCommand cmd);
+
+/**
+ * Send a [`SyncListInsertCommand`] to Atman.
+ *
+ * # Safety
+ * all fields in [`SyncListInsertCommand`] must be valid pointers to byte arrays of the corresponding length.
+ */
+void send_atman_sync_list_insert_command(struct SyncListInsertCommand cmd);
