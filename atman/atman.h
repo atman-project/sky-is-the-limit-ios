@@ -24,7 +24,7 @@ typedef struct SyncListInsertCommand {
   uintptr_t index;
 } SyncListInsertCommand;
 
-void run_atman(void);
+void run_atman(const char *syncman_dir);
 
 /**
  * Send a [`SyncUpdateCommand`] to Atman.

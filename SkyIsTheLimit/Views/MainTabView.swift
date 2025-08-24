@@ -18,7 +18,11 @@ struct MainTabView: View {
             }
         }
         .onAppear {
-            run_atman()
+            let syncmanDir = appSupportDir().appendingPathComponent("syncman")
+            createDir(path: syncmanDir.path())
+            run_atman(syncmanDir.path())
+            // TODO: Wait until atman is initialized
+            Thread.sleep(forTimeInterval: 2.0)
             initializeFlightsToAtman()
         }
     }
@@ -26,6 +30,17 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView()
+}
+
+func appSupportDir() -> URL {
+    FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+}
+
+func createDir(path: String) {
+    let mgr = FileManager.default
+    if !mgr.fileExists(atPath: path) {
+        try! mgr.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
+    }
 }
 
 func initializeFlightsToAtman() {
