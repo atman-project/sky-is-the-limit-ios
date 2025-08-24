@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var showingAlert = false
+    @State private var alertMessage = ""
+    
     var body: some View {
         TabView {
             Flights().tabItem {
@@ -20,10 +23,20 @@ struct MainTabView: View {
         .onAppear {
             let syncmanDir = appSupportDir().appendingPathComponent("syncman")
             createDir(path: syncmanDir.path())
-            run_atman(syncmanDir.path())
-            // TODO: Wait until atman is initialized
-            Thread.sleep(forTimeInterval: 2.0)
-            initializeFlightsToAtman()
+            let result = run_atman(syncmanDir.path())
+            if result != 0 {
+                let errorMessage = "Failed to initialize atman (error code: \(result))"
+                print(errorMessage)
+                alertMessage = errorMessage
+                showingAlert = true
+            } else {
+                initializeFlightsToAtman()
+            }
+        }
+        .alert("Atman Error", isPresented: $showingAlert) {
+            Button("OK") { }
+        } message: {
+            Text(alertMessage)
         }
     }
 }

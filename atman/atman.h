@@ -24,7 +24,13 @@ typedef struct SyncListInsertCommand {
   uintptr_t index;
 } SyncListInsertCommand;
 
-void run_atman(const char *syncman_dir);
+/**
+ * Initialize and run Atman with the given syncman directory.
+ *
+ * # Safety
+ * `syncman_dir` must be a valid null-terminated C string.
+ */
+unsigned short run_atman(const char *syncman_dir);
 
 /**
  * Send a [`SyncUpdateCommand`] to Atman.
