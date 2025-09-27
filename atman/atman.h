@@ -36,7 +36,8 @@ unsigned short run_atman(const char *syncman_dir);
  * Send a [`SyncUpdateCommand`] to Atman.
  *
  * # Safety
- * all fields in [`SyncUpdateCommand`] must be valid pointers to byte arrays of the corresponding length.
+ * all fields in [`SyncUpdateCommand`] must be valid pointers to byte arrays of
+ * the corresponding length.
  */
 void send_atman_sync_update_command(struct SyncUpdateCommand cmd);
 
@@ -44,6 +45,7 @@ void send_atman_sync_update_command(struct SyncUpdateCommand cmd);
  * Send a [`SyncListInsertCommand`] to Atman.
  *
  * # Safety
- * all fields in [`SyncListInsertCommand`] must be valid pointers to byte arrays of the corresponding length.
+ * all fields in [`SyncListInsertCommand`] must be valid pointers to byte
+ * arrays of the corresponding length.
  */
 void send_atman_sync_list_insert_command(struct SyncListInsertCommand cmd);
