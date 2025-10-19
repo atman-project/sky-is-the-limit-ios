@@ -23,14 +23,13 @@ struct MainTabView: View {
         .onAppear {
             let syncmanDir = appSupportDir().appendingPathComponent("syncman")
             createDir(path: syncmanDir.path())
-            let result = run_atman(syncmanDir.path())
+            // TODO: use the real identity key
+            let result = run_atman("e6b5f2694334c26a7f02062b99ab7735f4acc97c017502e0d7490331540ab1bc", syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
                 print(errorMessage)
                 alertMessage = errorMessage
                 showingAlert = true
-            } else {
-                initializeFlightsToAtman()
             }
         }
         .alert("Atman Error", isPresented: $showingAlert) {
@@ -56,27 +55,3 @@ func createDir(path: String) {
     }
 }
 
-func initializeFlightsToAtman() {
-    guard let json = try? encodeToJSON(FlightsDTO(flights: [])) else {
-        print("JSON encoding failed")
-        return
-    }
-    
-    let docSpace = Array("/aviation".utf8)
-    let docId = Array("flights".utf8)
-    docSpace.withUnsafeBytes { docSpacePtr in
-        docId.withUnsafeBytes { docIdPtr in
-            withUnsafePointer(json) { dataPtr, dataLen in
-                let cmd = SyncUpdateCommand(
-                    doc_space: docSpacePtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    doc_space_len: UInt(docSpacePtr.count),
-                    doc_id: docIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                    doc_id_len: UInt(docIdPtr.count),
-                    data: dataPtr,
-                    data_len: dataLen,
-                )
-                send_atman_sync_update_command(cmd)
-            }
-        }
-    }
-}

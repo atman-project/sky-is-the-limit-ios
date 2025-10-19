@@ -76,3 +76,10 @@ extension FlightDTO {
 struct FlightsDTO: Codable {
     var flights: [FlightDTO]
 }
+
+extension FlightsDTO {
+    /// Converts this data‑transfer object back into a persisted `[Flights]`.
+    func toFlights() -> [Flight] {
+        self.flights.map { $0.toFlight() }
+    }
+}
