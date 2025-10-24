@@ -23,7 +23,20 @@ struct MainTabView: View {
         .onAppear {
             let syncmanDir = appSupportDir().appendingPathComponent("syncman")
             createDir(path: syncmanDir.path())
+
+            // Get or generate the Ed25519 network key (persisted in Keychain)
+            guard let networkKey = KeyManager.getOrGenerateNetworkKey() else {
+                let errorMessage = "Failed to generate or retrieve network key"
+                print(errorMessage)
+                alertMessage = errorMessage
+                showingAlert = true
+                return
+            }
+
+            print("Network key (Ed25519 private key): \(networkKey)")
+
             // TODO: use the real identity key
+            // TODO: Once run_atman accepts network_key parameter, pass networkKey here
             let result = run_atman("e6b5f2694334c26a7f02062b99ab7735f4acc97c017502e0d7490331540ab1bc", syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
