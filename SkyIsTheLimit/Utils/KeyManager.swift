@@ -65,6 +65,7 @@ class KeyManager {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: networkKeyIdentifier,
             kSecValueData as String: keyData,
+            // NOTE: Just pass kSecAttrAccessibleWhenUnlockedThisDeviceOnly if we don't need biometry/passcode.
             kSecAttrAccessControl as String: access
         ]
 
@@ -94,6 +95,7 @@ class KeyManager {
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
 
+        print("retrievedFromKeychain result: \(status)")
         guard status == errSecSuccess,
               let data = result as? Data,
               let key = String(data: data, encoding: .utf8) else {

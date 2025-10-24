@@ -49,6 +49,7 @@ typedef struct SyncGetCommand {
  * `syncman_dir` must be a valid null-terminated C string.
  */
 unsigned short run_atman(const char *identity,
+                         const char *network_key,
                          const char *syncman_dir,
                          uint64_t sync_interval_secs);
 

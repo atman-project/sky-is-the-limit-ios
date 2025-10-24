@@ -32,12 +32,10 @@ struct MainTabView: View {
                 showingAlert = true
                 return
             }
-
-            print("Network key (Ed25519 private key): \(networkKey)")
+            print("Network key from Keychain: \(networkKey)")
 
             // TODO: use the real identity key
-            // TODO: Once run_atman accepts network_key parameter, pass networkKey here
-            let result = run_atman("e6b5f2694334c26a7f02062b99ab7735f4acc97c017502e0d7490331540ab1bc", syncmanDir.path(), 3)
+            let result = run_atman("e6b5f2694334c26a7f02062b99ab7735f4acc97c017502e0d7490331540ab1bc", networkKey, syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
                 print(errorMessage)
