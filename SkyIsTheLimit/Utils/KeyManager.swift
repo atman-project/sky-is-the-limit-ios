@@ -4,13 +4,26 @@ import Security
 import CryptoKit
 
 class KeyManager {
+    private static let identityIdentifier = "dev.oudwud.SkyIsTheLimit.identity"
     private static let networkKeyIdentifier = "dev.oudwud.SkyIsTheLimit.network_key"
-
-    /// Gets or generates a persistent Ed25519 network key for Atman from Keychain
+    
+    /// Gets or generates a persistent identity for Atman from Keychain
+    /// Returns the private key as a hex string (64 hex characters = 32 bytes)
+    static func getOrGenerateIdentity() -> String? {
+        return getOrGenerateEd25519Key(identityIdentifier)
+    }
+    
+    /// Gets or generates a persistent network key for Atman from Keychain
     /// Returns the private key as a hex string (64 hex characters = 32 bytes)
     static func getOrGenerateNetworkKey() -> String? {
+        return getOrGenerateEd25519Key(networkKeyIdentifier)
+    }
+
+    /// Gets or generates a persistent Ed25519 key from Keychain
+    /// Returns the private key as a hex string (64 hex characters = 32 bytes)
+    static func getOrGenerateEd25519Key(_ keyIdentifier: String) -> String? {
         // Try to retrieve existing key from Keychain
-        if let existingKey = retrieveFromKeychain() {
+        if let existingKey = retrieveFromKeychain(keyIdentifier) {
             return existingKey
         }
 
@@ -20,7 +33,7 @@ class KeyManager {
         let keyHex = privateKeyData.map { String(format: "%02x", $0) }.joined()
 
         // Store it securely in Keychain
-        if storeInKeychain(keyHex) {
+        if storeInKeychain(keyHex, keyIdentifier) {
             return keyHex
         }
 
@@ -47,7 +60,7 @@ class KeyManager {
     }
 
     /// Stores the network key in Keychain
-    private static func storeInKeychain(_ key: String) -> Bool {
+    private static func storeInKeychain(_ key: String, _ keyIdentifier: String) -> Bool {
         guard let keyData = key.data(using: .utf8) else { return false }
 
         // Create access control with biometry/passcode requirement
@@ -63,7 +76,7 @@ class KeyManager {
 
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: networkKeyIdentifier,
+            kSecAttrAccount as String: keyIdentifier,
             kSecValueData as String: keyData,
             // NOTE: Just pass kSecAttrAccessibleWhenUnlockedThisDeviceOnly if we don't need biometry/passcode.
             kSecAttrAccessControl as String: access
@@ -79,13 +92,13 @@ class KeyManager {
     }
 
     /// Retrieves the network key from Keychain
-    private static func retrieveFromKeychain() -> String? {
+    private static func retrieveFromKeychain(_ keyIdentifier: String) -> String? {
         let context = LAContext()
         context.localizedReason = "Authenticate to access network key"
         
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: networkKeyIdentifier,
+            kSecAttrAccount as String: keyIdentifier,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
             // NOTE: Remove this field if we don't use kSecAttrAccessible in storeInKeychain

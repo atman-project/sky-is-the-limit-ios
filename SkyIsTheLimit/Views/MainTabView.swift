@@ -23,8 +23,16 @@ struct MainTabView: View {
         .onAppear {
             let syncmanDir = appSupportDir().appendingPathComponent("syncman")
             createDir(path: syncmanDir.path())
+            
+            guard let identity = KeyManager.getOrGenerateIdentity() else {
+                let errorMessage = "Failed to generate or retrieve identity"
+                print(errorMessage)
+                alertMessage = errorMessage
+                showingAlert = true
+                return
+            }
+            print("Identity from Keychain: \(identity)")
 
-            // Get or generate the Ed25519 network key (persisted in Keychain)
             guard let networkKey = KeyManager.getOrGenerateNetworkKey() else {
                 let errorMessage = "Failed to generate or retrieve network key"
                 print(errorMessage)
@@ -34,8 +42,7 @@ struct MainTabView: View {
             }
             print("Network key from Keychain: \(networkKey)")
 
-            // TODO: use the real identity key
-            let result = run_atman("e6b5f2694334c26a7f02062b99ab7735f4acc97c017502e0d7490331540ab1bc", networkKey, syncmanDir.path(), 3)
+            let result = run_atman(identity, networkKey, syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
                 print(errorMessage)
