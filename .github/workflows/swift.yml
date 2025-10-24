@@ -17,5 +17,5 @@ jobs:
     - name: Run tests on iOS simulator
       run: |
         xcodebuild test \
-          -scheme 'Requestify' \
+          -scheme SkyIsTheLimit \
           -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.0'
