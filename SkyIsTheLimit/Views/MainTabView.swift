@@ -23,26 +23,18 @@ struct MainTabView: View {
         .onAppear {
             let syncmanDir = appSupportDir().appendingPathComponent("syncman")
             createDir(path: syncmanDir.path())
-            
-            guard let identity = KeyManager.getOrGenerateIdentity() else {
-                let errorMessage = "Failed to generate or retrieve identity"
+
+            guard let keys = KeyManager.getOrGenerateIdentityAndNetworkKey() else {
+                let errorMessage = "Failed to generate or retrieve identity and network key"
                 print(errorMessage)
                 alertMessage = errorMessage
                 showingAlert = true
                 return
             }
-            print("Identity from Keychain: \(identity)")
+            print("Identity from Keychain: \(keys.identity)")
+            print("Network key from Keychain: \(keys.networkKey)")
 
-            guard let networkKey = KeyManager.getOrGenerateNetworkKey() else {
-                let errorMessage = "Failed to generate or retrieve network key"
-                print(errorMessage)
-                alertMessage = errorMessage
-                showingAlert = true
-                return
-            }
-            print("Network key from Keychain: \(networkKey)")
-
-            let result = run_atman(identity, networkKey, syncmanDir.path(), 3)
+            let result = run_atman(keys.identity, keys.networkKey, syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
                 print(errorMessage)

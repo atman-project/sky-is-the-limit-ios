@@ -7,12 +7,26 @@ class KeyManager {
     private static let identityIdentifier = "dev.oudwud.SkyIsTheLimit.identity"
     private static let networkKeyIdentifier = "dev.oudwud.SkyIsTheLimit.network_key"
     
+    /// Gets or generates both identity and network key with a single authentication (biometry or passcode).
+    /// Returns a tuple of (identity, networkKey) as hex strings
+    static func getOrGenerateIdentityAndNetworkKey() -> (identity: String, networkKey: String)? {
+        let context = LAContext()
+        context.localizedReason = "Authenticate to access your identity and network key"
+
+        guard let identity = getOrGenerateEd25519Key(identityIdentifier, using: context),
+              let networkKey = getOrGenerateEd25519Key(networkKeyIdentifier, using: context) else {
+            return nil
+        }
+
+        return (identity, networkKey)
+    }
+
     /// Gets or generates a persistent identity for Atman from Keychain
     /// Returns the private key as a hex string (64 hex characters = 32 bytes)
     static func getOrGenerateIdentity() -> String? {
         return getOrGenerateEd25519Key(identityIdentifier)
     }
-    
+
     /// Gets or generates a persistent network key for Atman from Keychain
     /// Returns the private key as a hex string (64 hex characters = 32 bytes)
     static func getOrGenerateNetworkKey() -> String? {
@@ -21,9 +35,9 @@ class KeyManager {
 
     /// Gets or generates a persistent Ed25519 key from Keychain
     /// Returns the private key as a hex string (64 hex characters = 32 bytes)
-    static func getOrGenerateEd25519Key(_ keyIdentifier: String) -> String? {
+    private static func getOrGenerateEd25519Key(_ keyIdentifier: String, using context: LAContext? = nil) -> String? {
         // Try to retrieve existing key from Keychain
-        if let existingKey = retrieveFromKeychain(keyIdentifier) {
+        if let existingKey = retrieveFromKeychain(keyIdentifier, using: context) {
             return existingKey
         }
 
@@ -40,23 +54,6 @@ class KeyManager {
         // If storing fails, return the generated key anyway (shouldn't happen)
         print("Warning: Failed to store network key in Keychain")
         return keyHex
-    }
-
-    /// Gets the public key corresponding to the stored private key
-    static func getPublicKey() -> String? {
-        guard let privateKeyHex = getOrGenerateNetworkKey(),
-              let privateKeyData = Data(hexString: privateKeyHex) else {
-            return nil
-        }
-
-        do {
-            let signingKey = try Curve25519.Signing.PrivateKey(rawRepresentation: privateKeyData)
-            let publicKeyData = signingKey.publicKey.rawRepresentation
-            return publicKeyData.map { String(format: "%02x", $0) }.joined()
-        } catch {
-            print("Error deriving public key: \(error)")
-            return nil
-        }
     }
 
     /// Stores the network key in Keychain
@@ -92,17 +89,19 @@ class KeyManager {
     }
 
     /// Retrieves the network key from Keychain
-    private static func retrieveFromKeychain(_ keyIdentifier: String) -> String? {
-        let context = LAContext()
-        context.localizedReason = "Authenticate to access network key"
-        
+    private static func retrieveFromKeychain(_ keyIdentifier: String, using context: LAContext? = nil) -> String? {
+        let authContext = context ?? LAContext()
+        if context == nil {
+            authContext.localizedReason = "Authenticate to access your keys"
+        }
+
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: keyIdentifier,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne,
             // NOTE: Remove this field if we don't use kSecAttrAccessible in storeInKeychain
-            kSecUseAuthenticationContext as String: context,
+            kSecUseAuthenticationContext as String: authContext,
         ]
 
         var result: AnyObject?
