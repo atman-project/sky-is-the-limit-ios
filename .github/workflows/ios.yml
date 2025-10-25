@@ -28,7 +28,7 @@ jobs:
       - name: Build Atman bindings
         run: |
           cd submodules/atman/atman
-          bash ./build_bindings.sh
+          bash ./build_bindings.sh --x86_64
           cd -
           \cp submodules/atman/target/atman.h submodules/atman/target/x86_64-apple-ios/debug/libatman.a ./atman/
           ls -l ./atman
