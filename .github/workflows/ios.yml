@@ -1,10 +1,13 @@
-name: iOS starter workflow
+name: iOS
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "**" ]
+
+env:
+  CARGO_TERM_COLOR: always
 
 jobs:
   build:
@@ -14,6 +17,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Build Atman bindings
+        run: |
+          cd submodules/atman/atman
+          bash ./build_bindings.sh
+          cd -
+          \cp submodules/atman/target/atman.h submodules/atman/target/debug/libatman.a ./atman/
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")

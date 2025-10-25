@@ -1,0 +1,3 @@
+[submodule "atman-repo"]
+	path = submodules/atman
+	url = https://github.com/atman-project/atman
