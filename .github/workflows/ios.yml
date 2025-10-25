@@ -30,7 +30,7 @@ jobs:
           cd submodules/atman/atman
           bash ./build_bindings.sh
           cd -
-          \cp submodules/atman/target/atman.h submodules/atman/target/debug/libatman.a ./atman/
+          \cp submodules/atman/target/atman.h submodules/atman/target/x86_64-apple-ios/debug/libatman.a ./atman/
           ls -l ./atman
 
       - name: Set Default Scheme
@@ -53,7 +53,7 @@ jobs:
 
           # TODO: Replace `build` with `build-for-testing` when we're ready to enable building
           # tests. For now, it doesn't compile.
-          xcodebuild build -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+          xcodebuild build -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device,arch=x86_64"
 
       # - name: Test
       #   env:
