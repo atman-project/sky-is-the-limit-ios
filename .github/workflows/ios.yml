@@ -29,6 +29,7 @@ jobs:
           bash ./build_bindings.sh
           cd -
           \cp submodules/atman/target/atman.h submodules/atman/target/debug/libatman.a ./atman/
+          ls -l ./atman
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
