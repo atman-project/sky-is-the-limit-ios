@@ -53,7 +53,7 @@ jobs:
 
           # TODO: Replace `build` with `build-for-testing` when we're ready to enable building
           # tests. For now, it doesn't compile.
-          xcodebuild build -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device,arch=x86_64"
+          xcodebuild build -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device,arch=x86_64,OS=18.6"
 
       # - name: Test
       #   env:
