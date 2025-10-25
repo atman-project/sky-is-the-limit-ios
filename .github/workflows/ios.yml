@@ -28,7 +28,7 @@ jobs:
           cd submodules/atman/atman
           bash ./build_bindings.sh
           cd -
-          \cp submodules/atman/target/atman.h submodules/atman/target/debug/libatman.a ./atman/
+          \cp submodules/atman/target/atman.h submodules/atman/target/x86_64-apple-ios/debug/libatman.a ./atman/
           ls -l ./atman
       - name: Set Default Scheme
         run: |
