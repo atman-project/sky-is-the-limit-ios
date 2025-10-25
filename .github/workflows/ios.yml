@@ -19,23 +19,27 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
+
       - name: Prepare building Atman bindings
         run: |
           rustup target add aarch64-apple-ios x86_64-apple-ios
           cargo install --force cbindgen
+
       - name: Build Atman bindings
         run: |
           cd submodules/atman/atman
           bash ./build_bindings.sh
           cd -
-          \cp submodules/atman/target/atman.h submodules/atman/target/x86_64-apple-ios/debug/libatman.a ./atman/
+          \cp submodules/atman/target/atman.h submodules/atman/target/debug/libatman.a ./atman/
           ls -l ./atman
+
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
+
       - name: Build
         env:
           scheme: ${{ 'default' }}
@@ -50,6 +54,7 @@ jobs:
           # TODO: Replace `build` with `build-for-testing` when we're ready to enable building
           # tests. For now, it doesn't compile.
           xcodebuild build -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+
       # - name: Test
       #   env:
       #     scheme: ${{ 'default' }}
