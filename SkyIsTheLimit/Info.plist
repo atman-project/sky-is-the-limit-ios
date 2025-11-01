@@ -8,5 +8,7 @@
 	</array>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Face ID is required to securely access your network key</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required to scan QR codes</string>
 </dict>
 </plist>
