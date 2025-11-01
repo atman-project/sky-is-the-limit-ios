@@ -1,10 +1,3 @@
-//
-//  QRCodeScannerView.swift
-//  SkyIsTheLimit
-//
-//  Created by Claude Code
-//
-
 import SwiftUI
 import VisionKit
 
@@ -55,19 +48,27 @@ struct DataScannerRepresentable: UIViewControllerRepresentable {
 
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
         let onCodeScanned: (String) -> Void
+        private var hasScanned = false
 
         init(onCodeScanned: @escaping (String) -> Void) {
             self.onCodeScanned = onCodeScanned
         }
 
-        func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
-            switch item {
-            case .barcode(let barcode):
-                if let stringValue = barcode.payloadStringValue {
-                    onCodeScanned(stringValue)
+        func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]) {
+            // Only scan once to avoid multiple callbacks
+            guard !hasScanned else { return }
+
+            for item in addedItems {
+                switch item {
+                case .barcode(let barcode):
+                    if let stringValue = barcode.payloadStringValue {
+                        hasScanned = true
+                        onCodeScanned(stringValue)
+                        return
+                    }
+                default:
+                    break
                 }
-            default:
-                break
             }
         }
     }
