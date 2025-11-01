@@ -441,7 +441,8 @@
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SkyIsTheLimit/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app scans your boarding pass to fill flight details.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan QR codes and boarding passes";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID is required to securely access your network key";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app may access local network for peer to peer communications.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Saves the captured boarding-pass photo to your library (optional).";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app may access your photo library to select a boarding pass image.";
@@ -485,7 +486,8 @@
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SkyIsTheLimit/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app scans your boarding pass to fill flight details.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan QR codes and boarding passes";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID is required to securely access your network key";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app may access local network for peer to peer communications.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Saves the captured boarding-pass photo to your library (optional).";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app may access your photo library to select a boarding pass image.";

@@ -136,7 +136,7 @@ func insertFlightToAtman(_ flight: Flight, index: UInt) {
                             doc_space: docSpacePtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
                             doc_space_len: UInt(docSpacePtr.count),
                             collection_doc_id: collectionDocIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
-                            collection_doc_id_len: UInt(docIdPtr.count),
+                            collection_doc_id_len: UInt(collectionDocIdPtr.count),
                             doc_id: docIdPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
                             doc_id_len: UInt(docIdPtr.count),
                             property: propertyPtr.baseAddress!.assumingMemoryBound(to: UInt8.self),
