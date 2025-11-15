@@ -34,7 +34,7 @@ struct MainTabView: View {
             print("Identity from Keychain: \(keys.identity)")
             print("Network key from Keychain: \(keys.networkKey)")
 
-            let result = run_atman(keys.identity, keys.networkKey, syncmanDir.path(), 3)
+            let result = run_atman(keys.identity, keys.networkKey, nil, syncmanDir.path(), 3)
             if result != 0 {
                 let errorMessage = "Failed to initialize atman (error code: \(result))"
                 print(errorMessage)
