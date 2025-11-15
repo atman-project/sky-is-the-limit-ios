@@ -50,6 +50,7 @@ typedef struct SyncGetCommand {
  */
 unsigned short run_atman(const char *identity,
                          const char *network_key,
+                         const char *custom_relay_url,
                          const char *syncman_dir,
                          uint64_t sync_interval_secs);
 
