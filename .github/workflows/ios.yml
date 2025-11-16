@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Atman bindings
         run: |
-          bash ./build_atman.sh
+          bash ./build_atman.sh --x86_64
 
       - name: Set Default Scheme
         run: |
